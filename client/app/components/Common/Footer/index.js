@@ -63,7 +63,13 @@ const Footer = () => {
         <div className="footer-copyright">
           <span>
             © {new Date().getFullYear()} Heets in Dubai. Developed by{" "}
-            <Link href="https://www.bittechbd.tech">BitTech BD</Link>
+            <a
+              target="_blank"
+              rel="norefferer noopener"
+              href="https://www.facebook.com/BitTechnologyBD"
+            >
+              BitTech BD
+            </a>
           </span>
         </div>
         <ul className="footer-social-item">
