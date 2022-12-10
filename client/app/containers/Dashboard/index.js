@@ -4,17 +4,18 @@
  *
  */
 
-import React from 'react';
+import React from "react";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import actions from '../../actions';
-import { ROLE_ADMIN, ROLE_MEMBER, ROLE_MERCHANT } from '../../constants';
-import dashboardLinks from './links.json';
-import Admin from '../../components/Manager/Dashboard/Admin';
-import Merchant from '../../components/Manager/Dashboard/Merchant';
-import Customer from '../../components/Manager/Dashboard/Customer';
-import LoadingIndicator from '../../components/Common/LoadingIndicator';
+import actions from "../../actions";
+import { ROLE_ADMIN, ROLE_MEMBER, ROLE_MERCHANT } from "../../constants";
+import dashboardLinks from "./links.json";
+import Admin from "../../components/Manager/Dashboard/Admin";
+import Merchant from "../../components/Manager/Dashboard/Merchant";
+import Customer from "../../components/Manager/Dashboard/Customer";
+import LoadingIndicator from "../../components/Common/LoadingIndicator";
+import { Helmet } from "react-helmet-async";
 
 class Dashboard extends React.PureComponent {
   componentDidMount() {
@@ -26,6 +27,9 @@ class Dashboard extends React.PureComponent {
 
     return (
       <>
+        <Helmet>
+          <title>Dashboard | Heets in Dubai</title>
+        </Helmet>
         {isLoading ? (
           <LoadingIndicator inline />
         ) : user.role === ROLE_ADMIN ? (
@@ -52,11 +56,11 @@ class Dashboard extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.account.user,
     isLoading: state.account.isLoading,
-    isMenuOpen: state.dashboard.isMenuOpen
+    isMenuOpen: state.dashboard.isMenuOpen,
   };
 };
 

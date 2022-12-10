@@ -6,7 +6,7 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Alert } from "reactstrap";
 import { Link } from "react-router-dom";
 
 import actions from "../../actions";
@@ -18,6 +18,8 @@ import NotFound from "../../components/Common/NotFound";
 import { BagIcon } from "../../components/Common/Icon";
 import ProductReviews from "../../components/Store/ProductReviews";
 import SocialShare from "../../components/Store/SocialShare";
+import ReactWhatsapp from "react-whatsapp";
+import { Helmet } from "react-helmet-async";
 
 class ProductPage extends React.PureComponent {
   componentDidMount() {
@@ -57,53 +59,59 @@ class ProductPage extends React.PureComponent {
     } = this.props;
 
     return (
-      <div className="product-shop">
-        {isLoading ? (
-          <LoadingIndicator />
-        ) : Object.keys(product).length > 0 ? (
-          <>
-            <Row className="flex-row">
-              <Col xs="12" md="5" lg="5" className="mb-3 px-3 px-md-2">
-                <div className="position-relative">
-                  <img
-                    className="item-image"
-                    src={`${
-                      product.imageUrl
-                        ? product.imageUrl
-                        : "/images/placeholder-image.png"
-                    }`}
-                  />
-                  {product.inventory <= 0 && !shopFormErrors["quantity"] ? (
-                    <p className="stock out-of-stock">Out of stock</p>
-                  ) : (
-                    <p className="stock in-stock">In stock</p>
-                  )}
-                </div>
-              </Col>
-              <Col xs="12" md="7" lg="7" className="mb-3 px-3 px-md-2">
-                <div className="product-container">
-                  <div className="item-box">
-                    <div className="item-details">
-                      <h1 className="item-name one-line-ellipsis">
-                        {product.name}
-                      </h1>
-                      <p className="sku">{product.sku}</p>
-                      <hr />
-                      {product.brand && (
-                        <p className="by">
-                          see more from{" "}
-                          <Link
-                            to={`/shop/brand/${product.brand.slug}`}
-                            className="default-link"
-                          >
-                            {product.brand.name}
-                          </Link>
-                        </p>
-                      )}
-                      <p className="item-desc">{product.description}</p>
-                      <p className="price">${product.price}</p>
-                    </div>
-                    <div className="item-customize">
+      <>
+        <Helmet>
+          <title>
+            {`${product.name}}`} | Heets in Dubai | Heets IQOS in Dubai, UAE
+          </title>
+        </Helmet>
+        <div className="product-shop">
+          {isLoading ? (
+            <LoadingIndicator />
+          ) : Object.keys(product).length > 0 ? (
+            <>
+              <Row className="flex-row">
+                <Col xs="12" md="5" lg="5" className="mb-3 px-3 px-md-2">
+                  <div className="position-relative">
+                    <img
+                      className="item-image"
+                      src={`${
+                        product.imageUrl
+                          ? product.imageUrl
+                          : "/images/placeholder-image.png"
+                      }`}
+                    />
+                    {product.inventory <= 0 && !shopFormErrors["quantity"] ? (
+                      <p className="stock out-of-stock">Out of stock</p>
+                    ) : (
+                      <p className="stock in-stock">In stock</p>
+                    )}
+                  </div>
+                </Col>
+                <Col xs="12" md="7" lg="7" className="mb-3 px-3 px-md-2">
+                  <div className="product-container">
+                    <div className="item-box">
+                      <div className="item-details">
+                        <h1 className="item-name one-line-ellipsis">
+                          {product.name}
+                        </h1>
+                        <p className="sku">{product.sku}</p>
+                        <hr />
+                        {product.brand && (
+                          <p className="by">
+                            see more from{" "}
+                            <Link
+                              to={`/shop/brand/${product.brand.slug}`}
+                              className="default-link"
+                            >
+                              {product.brand.name}
+                            </Link>
+                          </p>
+                        )}
+                        <p className="item-desc">{product.description}</p>
+                        <p className="price">${product.price}</p>
+                      </div>
+                      {/* <div className="item-customize">
                       <Input
                         type={"number"}
                         error={shopFormErrors["quantity"]}
@@ -121,11 +129,11 @@ class ProductPage extends React.PureComponent {
                           productShopChange(name, value);
                         }}
                       />
-                    </div>
-                    <div className="my-4 item-share">
-                      <SocialShare product={product} />
-                    </div>
-                    <div className="item-actions">
+                    </div> */}
+                      <div className="my-4 item-share">
+                        <SocialShare product={product} />
+                      </div>
+                      {/* <div className="item-actions">
                       {itemInCart ? (
                         <Button
                           variant="primary"
@@ -150,24 +158,43 @@ class ProductPage extends React.PureComponent {
                           onClick={() => handleAddToCart(product)}
                         />
                       )}
+                    </div> */}
                     </div>
                   </div>
-                </div>
-              </Col>
-            </Row>
-            <ProductReviews
-              reviewFormData={reviewFormData}
-              reviewFormErrors={reviewFormErrors}
-              reviews={reviews}
-              reviewsSummary={reviewsSummary}
-              reviewChange={reviewChange}
-              addReview={addProductReview}
-            />
-          </>
-        ) : (
-          <NotFound message="no product found." />
-        )}
-      </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="12" xs="12" lg="12">
+                  <Alert color="danger">
+                    <div className="d-flex flex-column justify-content-center align-items-center">
+                      <h1 className="text-center">
+                        To buy call at +801915395544 or Whatsapp
+                      </h1>
+                      <br />
+                      <ReactWhatsapp
+                        number="+8801915395544"
+                        message={`Hello, I would like to buy ${product.name}`}
+                      >
+                        <Button variant={"danger"} text="WhatsApp" />
+                      </ReactWhatsapp>
+                    </div>
+                  </Alert>
+                </Col>
+              </Row>
+              <ProductReviews
+                reviewFormData={reviewFormData}
+                reviewFormErrors={reviewFormErrors}
+                reviews={reviews}
+                reviewsSummary={reviewsSummary}
+                reviewChange={reviewChange}
+                addReview={addProductReview}
+              />
+            </>
+          ) : (
+            <NotFound message="no product found." />
+          )}
+        </div>
+      </>
     );
   }
 }
